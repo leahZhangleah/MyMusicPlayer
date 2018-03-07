@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:transitionName="@string/shared_image"
+        android:id="@+id/album_detail_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:src = "@drawable/ic_launcher_background"
+        app:layout_constraintBottom_toTopOf="@id/album_detail_name"
+        android:layout_margin="@dimen/horizontal_spacing"
+        android:scaleType="center"/>
+
+    <TextView
+        android:transitionName="@string/album_name"
+        android:id="@+id/album_detail_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Witness"
+        app:layout_constraintBottom_toTopOf="@id/album_detail_singer"
+        android:layout_marginBottom="@dimen/vertical_spacing"
+        android:gravity="center"/>
+
+    <TextView
+        android:transitionName="@string/singer_name"
+        android:id="@+id/album_detail_singer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        tools:text="katy Perry"
+        android:layout_marginBottom="@dimen/vertical_spacing"/>
+
+    <ListView
+        android:id="@+id/songs_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/horizontal_spacing"
+        android:layout_marginBottom="@dimen/vertical_spacing"/>
+</LinearLayout>

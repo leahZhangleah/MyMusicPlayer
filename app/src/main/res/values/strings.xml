@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MyMusicPlayer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="album_name">album name</string>
+    <string name="singer_name">singer name</string>
+    <string name="shared_image">shared image</string>
+    <string name="shared_singer">shared singer name</string>
+    <string name="shared_album">shared album name</string>
+    <string name="play_from_album">PLAYING FROM ALBUM</string>
+</resources>
