@@ -37,4 +37,8 @@ public class AlbumDetail {
     public String[] getSongNames() {
         return songNames;
     }
+
+    public int[] getSongAudioId() {
+        return songAudioId;
+    }
 }

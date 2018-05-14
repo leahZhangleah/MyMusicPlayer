@@ -9,4 +9,7 @@
     <string name="shared_singer">shared singer name</string>
     <string name="shared_album">shared album name</string>
     <string name="play_from_album">PLAYING FROM ALBUM</string>
+    <string name="data_not_found_msg">Data can not be found</string>
+    <string name="song_position_key">songPosition</string>
+    <string name="album_position_key">albumPosition</string>
 </resources>

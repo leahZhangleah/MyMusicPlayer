@@ -21,6 +21,9 @@ public class AlbumDetailActivity extends AppCompatActivity {
     TextView albumName;
     TextView albumSinger;
     ListView songs;
+    private DemoData demo = new DemoData();
+    private AlbumDetail[] albums;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,18 +36,12 @@ public class AlbumDetailActivity extends AppCompatActivity {
 
 
         //repeated data of album list
-        //TODO find a way to build a seperate data file, read data from that file for both this activity and album list activity
-        final AlbumDetail[] albums = {new AlbumDetail(R.drawable.ic_home_black_24dp,"Taylor Swift","Reputation",new String[]{"Swish Swish","Power","Mind Maze"},new int[]{R.raw.song1,R.raw.song2,R.raw.song3}),
-                new AlbumDetail(R.drawable.ic_home_black_24dp,"Taylor Swift","Witness",new String[]{"Swish Swish","Power","Mind Maze"},new int[]{R.raw.song1,R.raw.song2,R.raw.song3}),
-                new AlbumDetail(R.drawable.ic_home_black_24dp,"Taylor Swift","1989",new String[]{"Swish Swish","Power","Mind Maze"},new int[]{R.raw.song1,R.raw.song2,R.raw.song3}),
-                new AlbumDetail(R.drawable.ic_home_black_24dp,"Taylor Swift","Bad blood",new String[]{"Swish Swish","Power","Mind Maze"},new int[]{R.raw.song1,R.raw.song2,R.raw.song3})
-        } ;
-
+       albums = demo.getDemoData();
 
         if (savedInstanceState == null){
             Bundle extra = getIntent().getExtras();
                 if (extra == null){
-                    Toast.makeText(AlbumDetailActivity.this,"Data not available",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AlbumDetailActivity.this,getString(R.string.data_not_found_msg),Toast.LENGTH_SHORT).show();
                 }else {
                     albumPosition = extra.getInt("albumPosition");
                     albumPhoto.setImageResource(albums[albumPosition].getAlbumPhotoId());
@@ -62,10 +59,9 @@ public class AlbumDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(AlbumDetailActivity.this,SongDetailActivity.class);
-                intent.putExtra("songPosition",i);
-                intent.putExtra("albumPostion",albumPosition);
+                intent.putExtra(getString(R.string.song_position_key),i);
+                intent.putExtra(getString(R.string.album_position_key),albumPosition);
                 startActivity(intent);
-
             }
         });
 

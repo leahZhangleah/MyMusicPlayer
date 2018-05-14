@@ -23,18 +23,15 @@ import android.widget.TextView;
 
 public class BrowseFragment extends Fragment {
     GridView albumView;
-
+    private DemoData demo = new DemoData();
+    private AlbumDetail[] albums;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View browse = inflater.inflate(R.layout.fragment_browse,container,false);
         albumView = (GridView) browse.findViewById(R.id.album_view);
-        final AlbumDetail[] albums = {new AlbumDetail(R.drawable.ic_home_black_24dp,"Taylor Swift","Reputation",new String[]{"Swish Swish","Power","Mind Maze"},new int[]{R.raw.song1,R.raw.song2,R.raw.song3}),
-                new AlbumDetail(R.drawable.ic_home_black_24dp,"Taylor Swift","Witness",new String[]{"Swish Swish","Power","Mind Maze"},new int[]{R.raw.song1,R.raw.song2,R.raw.song3}),
-                new AlbumDetail(R.drawable.ic_home_black_24dp,"Taylor Swift","1989",new String[]{"Swish Swish","Power","Mind Maze"},new int[]{R.raw.song1,R.raw.song2,R.raw.song3}),
-                new AlbumDetail(R.drawable.ic_home_black_24dp,"Taylor Swift","Bad blood",new String[]{"Swish Swish","Power","Mind Maze"},new int[]{R.raw.song1,R.raw.song2,R.raw.song3})
-        } ;
+        albums = demo.getDemoData();
 
         AlbumAdapter albumAdapter = new AlbumAdapter(getActivity(),albums);
         albumView.setAdapter(albumAdapter);

@@ -39,7 +39,7 @@
         android:id="@+id/song_detail_singer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="witness"
+        tools:text="katy perry"
         android:gravity="center"
         android:layout_marginBottom="@dimen/vertical_spacing"
         android:textSize="@dimen/song_singer_name_size"/>
@@ -68,7 +68,7 @@
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/vertical_spacing"/>
+        android:layout_margin="@dimen/vertical_spacing" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -103,6 +103,5 @@
             android:background="@null"
             />
     </LinearLayout>
-
 
 </LinearLayout>
