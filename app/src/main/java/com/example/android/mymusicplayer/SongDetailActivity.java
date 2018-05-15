@@ -1,9 +1,6 @@
 package com.example.android.mymusicplayer;
 
-import android.content.Context;
-import android.media.AudioFocusRequest;
 import android.media.AudioManager;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,13 +13,16 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by ceciliaHumlelu on 2018-03-06.
  */
 
-public class SongDetailActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener, View.OnClickListener,SeekBar.OnSeekBarChangeListener {
-    private int mSongPosition, mAlbumPosition,mAlbumPhotoId, mSongId;
-    private String mAlbumName, mSongName, mSingerName;
+public class SongDetailActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener, View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+    private int mSongPosition, mAlbumPosition, mAlbumPhotoId, mSongId;
+    private String mAlbumName, mSongName, mSingerName, totalTime, elapsedTime;
     private int[] mSongIds;
     private DemoData mDemo = new DemoData();
     private AlbumDetail[] mAlbums;
@@ -37,7 +37,7 @@ public class SongDetailActivity extends AppCompatActivity implements MediaPlayer
     private Runnable mUpdateSeekbar;
     private Handler mHandler = new Handler();
     private boolean isAudioFocusGranted = false;
-
+    private SimpleDateFormat formatter;
 
     private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
@@ -86,7 +86,7 @@ public class SongDetailActivity extends AppCompatActivity implements MediaPlayer
             if (extras == null) {
                 Toast.makeText(this, getString(R.string.data_not_found_msg), Toast.LENGTH_SHORT);
             } else {
-                mSongPosition= extras.getInt(getString(R.string.song_position_key));
+                mSongPosition = extras.getInt(getString(R.string.song_position_key));
                 mAlbumPosition = extras.getInt(getString(R.string.album_position_key));
                 mAlbum = mAlbums[mAlbumPosition];
                 mSongNames = mAlbum.getSongNames();
@@ -103,62 +103,71 @@ public class SongDetailActivity extends AppCompatActivity implements MediaPlayer
             }
         }
 
-        initMediaPlayer(mSongId,true);
+        initMediaPlayer(mSongId, true);
     }
 
-    private void initMediaPlayer(int songId, boolean ifAbandonAudioFocus){
+    private void initMediaPlayer(int songId, boolean ifAbandonAudioFocus) {
         releaseMediaPlayer(ifAbandonAudioFocus);
-        if (ifAbandonAudioFocus){
+        if (ifAbandonAudioFocus) {
             requestAudioFocus();
         }
-        if (isAudioFocusGranted){
-            mMediaPlayer = MediaPlayer.create(this,songId);
+        if (isAudioFocusGranted) {
+            mMediaPlayer = MediaPlayer.create(this, songId);
             mMediaPlayer.start();
             updateSeekBar();
             mPlay_pause_btn.setImageResource(R.drawable.ic_pause_circle_outline_black_24dp);
             mMediaPlayer.setOnCompletionListener(this);
         }
     }
-    private void releaseMediaPlayer(boolean ifAbandonAudioFocus){
-        if (mMediaPlayer!= null){
+
+    private void releaseMediaPlayer(boolean ifAbandonAudioFocus) {
+        if (mMediaPlayer != null) {
             mMediaPlayer.release();
             mMediaPlayer = null;
             mSeekBar.setProgress(0);
             mHandler.removeCallbacks(mUpdateSeekbar);
-            if (ifAbandonAudioFocus){
+            if (ifAbandonAudioFocus) {
                 mAudioManager.abandonAudioFocus(audioFocusChangeListener);
             }
         }
     }
 
-    private boolean requestAudioFocus(){
+    private boolean requestAudioFocus() {
         isAudioFocusGranted = false;
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        int result = mAudioManager.requestAudioFocus(audioFocusChangeListener,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN);
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+        int result = mAudioManager.requestAudioFocus(audioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             isAudioFocusGranted = true;
-        }else if (result == AudioManager.AUDIOFOCUS_REQUEST_FAILED){
-            isAudioFocusGranted =  false;
-        }else{
-            isAudioFocusGranted =  false;
+        } else if (result == AudioManager.AUDIOFOCUS_REQUEST_FAILED) {
+            isAudioFocusGranted = false;
+        } else {
+            isAudioFocusGranted = false;
         }
         return isAudioFocusGranted;
     }
 
-    private void updateSeekBar(){
-        int songDuration = mMediaPlayer.getDuration()/1000;
+    private void updateSeekBar() {
+        int songDuration = mMediaPlayer.getDuration() / 1000;
+        formatter = new SimpleDateFormat("mm:ss");
+        Date total = new Date(mMediaPlayer.getDuration());
+        totalTime = formatter.format(total);
+        mFinishTimeV.setText(totalTime);
+        mStartTimeV.setText("00:00");
         mSeekBar.setMax(songDuration);
         mUpdateSeekbar = new Runnable() {
             @Override
             public void run() {
-                if (mMediaPlayer.isPlaying()){
-                    int songCurrentPosition = mMediaPlayer.getCurrentPosition()/1000;
+                if (mMediaPlayer.isPlaying()) {
+                    int songCurrentPosition = mMediaPlayer.getCurrentPosition() / 1000;
+                    Date elapsed = new Date(mMediaPlayer.getCurrentPosition());
+                    elapsedTime = formatter.format(elapsed);
+                    mStartTimeV.setText(elapsedTime);
                     mSeekBar.setProgress(songCurrentPosition);
-                    mHandler.postDelayed(this,1000);
+                    mHandler.postDelayed(this, 1000);
                 }
             }
         };
-        mHandler.postDelayed(mUpdateSeekbar,1000);
+        mHandler.postDelayed(mUpdateSeekbar, 1000);
     }
 
     @Override
@@ -166,51 +175,51 @@ public class SongDetailActivity extends AppCompatActivity implements MediaPlayer
         nextSong();
     }
 
-    private void nextSong(){
-        if (mSongPosition < mSongIds.length-1){
+    private void nextSong() {
+        if (mSongPosition < mSongIds.length - 1) {
             mSongPosition += 1;
-        }else {
+        } else {
             mSongPosition = 0;
         }
         mSongId = mSongIds[mSongPosition];
         mSongName = mSongNames[mSongPosition];
+        initMediaPlayer(mSongId, false);
         updateView(mSongName);
-        initMediaPlayer(mSongId,false);
     }
 
-    private void updateView(String songName){
+    private void updateView(String songName) {
         mSongNameV.setText(songName);
     }
 
-    private void previousSong(){
-        if (mSongPosition > 0){
+    private void previousSong() {
+        if (mSongPosition > 0) {
             mSongPosition -= 1;
-        }else {
-            mSongPosition = mSongIds.length -1;
+        } else {
+            mSongPosition = mSongIds.length - 1;
         }
         mSongId = mSongIds[mSongPosition];
         mSongName = mSongNames[mSongPosition];
         updateView(mSongName);
-        initMediaPlayer(mSongId,false);
+        initMediaPlayer(mSongId, false);
     }
 
-    private void playOrPause(){
-        if (mMediaPlayer!= null && mMediaPlayer.isPlaying()){
+    private void playOrPause() {
+        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
             mMediaPlayer.pause();
             mPlay_pause_btn.setImageResource(R.drawable.ic_play_circle_outline_black_24dp);
             return;
-        }else if (mMediaPlayer!= null){
+        } else if (mMediaPlayer != null) {
             mMediaPlayer.start();
             mPlay_pause_btn.setImageResource(R.drawable.ic_pause_circle_outline_black_24dp);
             return;
-        }else{
-            initMediaPlayer(mSongId,true);
+        } else {
+            initMediaPlayer(mSongId, true);
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.play_or_pause:
                 playOrPause();
                 return;
@@ -236,12 +245,11 @@ public class SongDetailActivity extends AppCompatActivity implements MediaPlayer
         releaseMediaPlayer(true);
     }
 
-
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (fromUser){
-                mMediaPlayer.seekTo(progress*1000);
-            }
+        if (fromUser) {
+            mMediaPlayer.seekTo(progress * 1000);
+        }
     }
 
     @Override

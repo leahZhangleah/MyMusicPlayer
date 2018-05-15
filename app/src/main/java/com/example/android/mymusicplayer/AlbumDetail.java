@@ -11,7 +11,7 @@ public class AlbumDetail {
     private String[] songNames;
     private int[] songAudioId;
 
-    public AlbumDetail(int albumPhotoId, String singer, String albumName,String[] songNames, int[] songAudioId ){
+    public AlbumDetail(int albumPhotoId, String singer, String albumName, String[] songNames, int[] songAudioId) {
         this.albumPhotoId = albumPhotoId;
         this.singer = singer;
         this.albumName = albumName;
@@ -19,8 +19,6 @@ public class AlbumDetail {
         this.songAudioId = songAudioId;
 
     }
-
-
 
     public int getAlbumPhotoId() {
         return albumPhotoId;

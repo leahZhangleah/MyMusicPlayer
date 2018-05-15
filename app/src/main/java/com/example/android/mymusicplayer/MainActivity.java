@@ -9,8 +9,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
-    BottomNavigationView bottomNavigationView;
-    FragmentTransaction fragmentTransaction;
+    private BottomNavigationView bottomNavigationView;
+    private FragmentTransaction fragmentTransaction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,12 +20,11 @@ public class MainActivity extends AppCompatActivity {
         final BrowseFragment browse = new BrowseFragment();
         final SearchFragment search = new SearchFragment();
 
-
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.app_bar_browse:
                         switchFragment(browse);
                         return true;
@@ -35,14 +35,11 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
         switchFragment(browse);
     }
 
-    private void switchFragment(Fragment fragment){
+    private void switchFragment(Fragment fragment) {
         fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.page_container,fragment).commit();
+        fragmentTransaction.replace(R.id.page_container, fragment).commit();
     }
-
-
 }

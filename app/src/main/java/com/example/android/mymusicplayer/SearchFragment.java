@@ -21,5 +21,4 @@ public class SearchFragment extends Fragment {
         anotherthing.setText("Search");
         return browse;
     }
-
 }

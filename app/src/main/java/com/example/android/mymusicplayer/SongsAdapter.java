@@ -18,7 +18,7 @@ public class SongsAdapter extends ArrayAdapter<String> {
 
     public SongsAdapter(@NonNull Context context, @NonNull String[] objects,String singer) {
         super(context,R.layout.song_view , objects);
-        singer = singer;
+        this.singer = singer;
     }
 
     @NonNull

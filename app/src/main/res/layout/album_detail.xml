@@ -10,12 +10,13 @@
     <ImageView
         android:transitionName="@string/shared_image"
         android:id="@+id/album_detail_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/pic_size"
+        android:layout_height="@dimen/pic_size"
+        android:layout_gravity="center"
         tools:src = "@drawable/ic_launcher_background"
         app:layout_constraintBottom_toTopOf="@id/album_detail_name"
         android:layout_margin="@dimen/horizontal_spacing"
-        android:scaleType="center"/>
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:transitionName="@string/album_name"
@@ -25,7 +26,9 @@
         tools:text="Witness"
         app:layout_constraintBottom_toTopOf="@id/album_detail_singer"
         android:layout_marginBottom="@dimen/vertical_spacing"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textSize="@dimen/album_detail_album_name_tx_size"
+        android:textStyle="bold"/>
 
     <TextView
         android:transitionName="@string/singer_name"
@@ -34,13 +37,16 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         tools:text="katy Perry"
-        android:layout_marginBottom="@dimen/vertical_spacing"/>
+        android:layout_marginBottom="@dimen/vertical_spacing"
+        android:textColor="@color/sub_tx_color"/>
 
-    <ListView
-        android:id="@+id/songs_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="@dimen/horizontal_spacing"
-        android:layout_marginBottom="@dimen/vertical_spacing"/>
+        <ListView
+            android:id="@+id/songs_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/horizontal_spacing"
+            android:layout_marginRight="@dimen/horizontal_spacing"
+            android:layout_marginBottom="@dimen/vertical_spacing" />
+
 </LinearLayout>

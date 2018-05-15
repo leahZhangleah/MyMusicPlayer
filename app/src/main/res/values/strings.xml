@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">MyMusicPlayer</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="album_name">album name</string>
     <string name="singer_name">singer name</string>
@@ -12,4 +10,5 @@
     <string name="data_not_found_msg">Data can not be found</string>
     <string name="song_position_key">songPosition</string>
     <string name="album_position_key">albumPosition</string>
+    <string name="album_by">Album·By</string>
 </resources>
