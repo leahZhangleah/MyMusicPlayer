@@ -11,4 +11,7 @@
     <string name="song_position_key">songPosition</string>
     <string name="album_position_key">albumPosition</string>
     <string name="album_by">Album·By</string>
+    <string name="main_activity_label">Browse</string>
+    <string name="album_detail_activity_label">Songs</string>
+    <string name="song_detail_activity_label">Playing</string>
 </resources>

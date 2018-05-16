@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -32,21 +33,21 @@ public class AlbumDetailActivity extends AppCompatActivity {
         albumName = (TextView) findViewById(R.id.album_detail_name);
         albumSinger = (TextView) findViewById(R.id.album_detail_singer);
 
-
         //repeated data of album list
         albums = demo.getDemoData();
 
         if (savedInstanceState == null) {
             Bundle extra = getIntent().getExtras();
             if (extra == null) {
-                Toast.makeText(AlbumDetailActivity.this, getString(R.string.data_not_found_msg), Toast.LENGTH_SHORT).show();
+                Log.i("Album Detail Activity", getString(R.string.data_not_found_msg));
             } else {
                 albumPosition = extra.getInt("albumPosition");
-                albumPhoto.setImageResource(albums[albumPosition].getAlbumPhotoId());
-                albumName.setText(albums[albumPosition].getAlbumName());
-                albumSinger.setText(getString(R.string.album_by) + " " + albums[albumPosition].getSinger());
             }
         }
+
+        albumPhoto.setImageResource(albums[albumPosition].getAlbumPhotoId());
+        albumName.setText(albums[albumPosition].getAlbumName());
+        albumSinger.setText(getString(R.string.album_by) + " " + albums[albumPosition].getSinger());
 
         songs = (ListView) findViewById(R.id.songs_list);
         SongsAdapter songsAdapter = new SongsAdapter(AlbumDetailActivity.this, albums[albumPosition].getSongNames(), albums[albumPosition].getSinger());
@@ -61,6 +62,18 @@ public class AlbumDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("albumPosition", albumPosition);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        albumPosition = savedInstanceState.getInt("albumPosition");
     }
 }
 
